@@ -1,5 +1,7 @@
+using EasyBlog.Data;
 using EasyBlog.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace EasyBlog.Controllers
@@ -7,15 +9,17 @@ namespace EasyBlog.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
         {
             _logger = logger;
+            _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _db.Posts.OrderByDescending(x => x.Id).ToListAsync());
         }
 
         public IActionResult Privacy()
