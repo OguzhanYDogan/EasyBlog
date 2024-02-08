@@ -17,14 +17,36 @@ namespace EasyBlog.Controllers
             _db = db;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? cid)
         {
-            return View(await _db.Posts.OrderByDescending(x => x.Id).ToListAsync());
+            IQueryable<Post> posts = _db.Posts;
+
+            if (cid != null)
+            {
+                posts = posts.Where(x => x.CategoryId == cid);
+
+                ViewBag.Category = _db.Categories.Find(cid)!.Name;
+            }
+
+            return View(await posts.OrderByDescending(x => x.Id).ToListAsync());
         }
 
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        [Route("Post/{id:int}")]
+        public IActionResult ShowPost(int id)
+        {
+            var post = _db.Posts
+                .Include(x => x.Category)
+                .FirstOrDefault(x => x.Id == id);
+
+            if (post == null)
+                return NotFound();
+
+            return View(post);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

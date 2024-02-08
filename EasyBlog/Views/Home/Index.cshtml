@@ -3,54 +3,25 @@
     ViewData["Title"] = "Home Page";
 }
 
-<!-- Featured blog post-->
+@if (ViewBag.Category != null)
+{
+    <h2 class="border-bottom pb-3 mb-3">Posts in &ldquo;@ViewBag.Category&rdquo; Category</h2>
+}
 
-<div class="card mb-4">
-    <a href="#!"><img class="card-img-top post-image" src="~/img/posts/@Model[0].Image" alt="@Model[0].Image" /></a>
-    <div class="card-body">
-        <h2 class="card-title">@Model[0].Title</h2>
-        <p class="card-text">@Model[0].Description</p>
-        <a class="btn btn-primary" href="#!">Read more →</a>
-    </div>
-</div>
-<!-- Nested row for non-featured blog posts-->
-<div class="row">
 
-    <!-- Blog post-->
-    <div class="col-lg-6">
-        @for (int i = 1; i < Model.Count; i++)
-        {
-            if (i % 2 == 1)
-            {
-                <div class="card mb-4">
-                    <a href="#!"><img class="card-img-top post-image" src="~/img/posts/@Model[i].Image" alt="@Model[i].Image" /></a>
-                    <div class="card-body">
-                        <h2 class="card-title">@Model[i].Title</h2>
-                        <p class="card-text">@Model[i].Description</p>
-                        <a class="btn btn-primary" href="#!">Read more →</a>
-                    </div>
-                </div>
-            }
-        }
+@foreach (var post in Model)
+{
+    <div class="card mb-4">
+        <a href="#!"><img class="card-img-top post-image" src="~/img/posts/@post.Image" alt="@post.Title" /></a>
+        <div class="card-body">
+            <h2 class="card-title">@post.Title</h2>
+            <p class="card-text">@post.Description</p>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="ShowPost" asp-route-id="@post.Id">Read more →</a>
+        </div>
     </div>
-    <div class="col-lg-6">
-        <!-- Blog posts-->
-        @for (int i = 1; i < Model.Count; i++)
-        {
-            if (i % 2 == 0)
-            {
-                <div class="card mb-4">
-                    <a href="#!"><img class="card-img-top post-image" src="~/img/posts/@Model[i].Image" alt="@Model[i].Image" /></a>
-                    <div class="card-body">
-                        <h2 class="card-title">@Model[i].Title</h2>
-                        <p class="card-text">@Model[i].Description</p>
-                        <a class="btn btn-primary" href="#!">Read more →</a>
-                    </div>
-                </div>
-            }
-        }
-    </div>
-</div>
+}
+
+
 <!-- Pagination-->
 <nav aria-label="Pagination">
     <hr class="my-0" />

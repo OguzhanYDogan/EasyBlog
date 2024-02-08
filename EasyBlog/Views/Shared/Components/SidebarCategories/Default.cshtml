@@ -4,29 +4,11 @@
 <div class="card mb-4">
     <div class="card-header">Categories</div>
     <div class="card-body">
-        <div class="row">
-            <div class="col-sm-6">
-                <ul class="list-unstyled mb-0">
-                    @foreach (var category in Model)
-                    {
-                        @if (category.Id % 2 == 1)
-                        {
-                            <li><a asp-controller="Home" asp-action="Index" asp-route-cid="@category.Id">@category.Name</a></li>
-                        }
-                    }
-                </ul>
-            </div>
-            <div class="col-sm-6">
-                <ul class="list-unstyled mb-0">
-                    @foreach (var category in Model)
-                    {
-                        @if (category.Id % 2 == 0)
-                        {
-                            <li><a asp-controller="Home" asp-action="Index" asp-route-cid="@category.Id">@category.Name</a></li>
-                        }
-                    }
-                </ul>
-            </div>
-        </div>
+        <ul class="list-unstyled mb-0">
+            @foreach (var category in Model)
+            {
+                <li><a asp-controller="Home" asp-action="Index" asp-route-cid="@category.Id">@category.Name</a></li>
+            }
+        </ul>
     </div>
 </div>
